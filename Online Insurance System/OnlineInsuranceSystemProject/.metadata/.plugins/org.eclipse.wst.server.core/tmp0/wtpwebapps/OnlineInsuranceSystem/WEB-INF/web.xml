@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>OnlineInsuranceSystem</display-name>
+  <welcome-file-list>
+    <welcome-file>InsertUser.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <servlet-name>InsertUser</servlet-name>
+    <servlet-class>com.manipal.controller.UserController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InsertUser</servlet-name>
+    <url-pattern>/UserController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>InsertClaim</servlet-name>
+    <servlet-class>com.manipal.controller.ClaimsController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InsertClaim</servlet-name>
+    <url-pattern>/ClaimsController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>InsertAgent</servlet-name>
+    <servlet-class>com.manipal.controller.AgentController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InsertAgent</servlet-name>
+    <url-pattern>/AgentController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>DeleteAgent</servlet-name>
+    <servlet-class>com.manipal.controller.DeleteController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteAgent</servlet-name>
+    <url-pattern>/DeleteController</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>InsertInsurance</servlet-name>
+    <servlet-class>com.manipal.controller.InsuranceUpdateController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InsertInsurance</servlet-name>
+    <url-pattern>/InsuranceUpdateController</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>InsertNewPolicy</servlet-name>
+    <servlet-class>com.manipal.controller.RenewPolicyController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>InsertNewPolicy</servlet-name>
+    <url-pattern>/RenewPolicyController</url-pattern>
+  </servlet-mapping>
+  
+</web-app>

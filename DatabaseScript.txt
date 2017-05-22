@@ -1,0 +1,182 @@
+CREATE TABLE users
+   (	
+         userId         NUMBER(10,0), 
+         name           VARCHAR2(20)          CONSTRAINT "USER_NAME_NN" NOT NULL ENABLE, 
+         dateOfBirth    DATE                  CONSTRAINT "USER_BIRTH_DATE_NN" NOT NULL ENABLE,
+         gender         VARCHAR2(10)           CONSTRAINT "USER_GENDER_NN" NOT NULL ENABLE,
+         panNo          VARCHAR2(20)          CONSTRAINT "USER_PAN_NO_NN" NOT NULL ENABLE,
+         salary         NUMBER(8,2)           CONSTRAINT "USER_SALARY_NN" NOT NULL ENABLE, 
+         mobNumber      NUMBER(20)            CONSTRAINT "USER_MOB_NUMBER_NN" NOT NULL ENABLE, 
+         nationality    VARCHAR(10)           CONSTRAINT "USER_NATIONALITY_NN" NOT NULL ENABLE,
+         userPassword   VARCHAR(20)           CONSTRAINT "USER_PASSWORD_NN" NOT NULL ENABLE,
+         status         VARCHAR(10)           CONSTRAINT "USER_STATUS_NN" NOT NULL ENABLE,
+         
+	 
+	 CONSTRAINT "USER_SALARY_MIN" CHECK (salary > 0) ENABLE, 
+    	 CONSTRAINT "USER_MOB_NUMBER_UK" UNIQUE (mobNumber),
+	 CONSTRAINT "USER_PAN_NO_UK" UNIQUE (panNo),
+	 CONSTRAINT "USER_USER_ID_PK" PRIMARY KEY (userId)
+   );
+   
+
+
+   CREATE TABLE agent
+   (	
+         agentId         NUMBER(10,0), 
+         name            VARCHAR2(20)          CONSTRAINT "AGENT_NAME_NN" NOT NULL ENABLE, 
+         dateOfBirth     DATE                  CONSTRAINT "AGENT_BIRTH_DATE_NN" NOT NULL ENABLE,
+         gender          VARCHAR2(10)           CONSTRAINT "AGENT_GENDER_NN" NOT NULL ENABLE,
+         panNo           VARCHAR2(20)          CONSTRAINT "AGENT_PAN_NO_NN" NOT NULL ENABLE,
+         salary          NUMBER(8,2)           CONSTRAINT "AGENT_SALARY_NN" NOT NULL ENABLE, 
+         mobNumber       NUMBER(20)            CONSTRAINT "AGENT_MOB_NUMBER_NN" NOT NULL ENABLE, 
+         nationality     VARCHAR(10)           CONSTRAINT "AGENT_NATIONALITY_NN" NOT NULL ENABLE,
+         agentPassword   VARCHAR(20)           CONSTRAINT "AGENT_PASSWORD_NN" NOT NULL ENABLE,
+         status          VARCHAR(10)           CONSTRAINT "AGENT_STATUS_NN" NOT NULL ENABLE,
+         
+	 
+	 CONSTRAINT "AGENT_SALARY_MIN" CHECK (salary > 0) ENABLE, 
+     	 CONSTRAINT "AGENT_MOB_NUMBER_UK" UNIQUE (mobNumber),
+	 CONSTRAINT "AGENT_PAN_NO_UK" UNIQUE (panNo),
+	 CONSTRAINT "AGENT_ID_PK" PRIMARY KEY (agentId)
+   );
+   
+ 
+   
+   CREATE TABLE insurance
+   (
+   insuranceId            NUMBER(10,0),
+   insuranceType          VARCHAR2(20)          CONSTRAINT "INSURANCE_TYPE_NN" NOT NULL ENABLE,
+   description            VARCHAR2(100)          CONSTRAINT "INSURANCE_DESCRIPTION_NAME_NN" NOT NULL ENABLE,
+   status                 VARCHAR(10)           CONSTRAINT "INSURANCE_STATUS_NN" NOT NULL ENABLE,
+   
+	 CONSTRAINT "INSURANCE_ID_PK" PRIMARY KEY (insuranceId)
+   );
+   
+ 
+   
+   CREATE TABLE policy
+   (
+   policyId                NUMBER(10,0), 
+   insuranceId             NUMBER(10,0),
+   policyHolderName        VARCHAR2(20)          CONSTRAINT "POLICY_HOLDER_NAME_NN" NOT NULL ENABLE,
+   policyCoverage          NUMBER(10,2)           CONSTRAINT "POLICY_COVERAGE_NN" NOT NULL ENABLE,
+   amount                  NUMBER(10,2)           CONSTRAINT "POLICY_AMOUNT_NN" NOT NULL ENABLE,
+   policyDate              DATE                  CONSTRAINT "POLICY_DATE_NN" NOT NULL ENABLE,
+   agentId                 NUMBER(10,0)           CONSTRAINT "AGENT_ID_NN" NOT NULL ENABLE, 
+   userId                  NUMBER(10,0)           CONSTRAINT "USER_ID_NN" NOT NULL ENABLE, 
+   status                  VARCHAR(10)           CONSTRAINT "POLICY_STATUS_NN" NOT NULL ENABLE,
+   
+	 CONSTRAINT "POLICY_ID_PK" PRIMARY KEY (policyId),
+   CONSTRAINT "POLICY_INSURANCE_ID_FK" FOREIGN KEY (insuranceId) REFERENCES insurance(insuranceId) ENABLE,
+   CONSTRAINT "POLICY_AGENT_ID_FK" FOREIGN KEY (agentId) REFERENCES agent(agentId) ENABLE,
+   CONSTRAINT "POLICY_USER_ID_FK" FOREIGN KEY (userId) REFERENCES users(userId) ENABLE
+   
+   );
+   
+
+
+   CREATE TABLE RenewPolicy
+   (
+   newPolicyId            NUMBER(10,0),
+   oldPolicyId            NUMBER(10,0)           CONSTRAINT "OLD_POLICY_ID_NN" NOT NULL ENABLE,
+   renewDate              DATE                  CONSTRAINT "RENEW_POLICY_DATE_NN" NOT NULL ENABLE,
+   status                 VARCHAR(10)           CONSTRAINT "RENEW_POLICY_STATUS_NN" NOT NULL ENABLE,
+   
+   CONSTRAINT "RENEW_POLICY_ID_PK" PRIMARY KEY (newPolicyId),
+   CONSTRAINT "RENEW_POLICY_OLD_POLICY_ID_FK" FOREIGN KEY (oldPolicyId) REFERENCES policy(policyId) ENABLE
+   );
+   
+
+
+
+   CREATE TABLE claim
+   (
+   claimId                NUMBER(10,0),
+   policyId               NUMBER(10,0)           CONSTRAINT "CLAIM_POLICY_ID_NN" NOT NULL ENABLE,
+   claimDate              DATE                  CONSTRAINT "CLAIM_DATE_NN" NOT NULL ENABLE,
+   status                 VARCHAR(10)           CONSTRAINT "CLAIM_POLICY_STATUS_NN" NOT NULL ENABLE,
+   
+   CONSTRAINT "CLAIM_ID_PK" PRIMARY KEY (claimId),
+   CONSTRAINT "CLAIM_POLICY_ID_FK" FOREIGN KEY (policyId) REFERENCES policy(policyId) ENABLE
+   );
+   
+ 
+
+
+  CREATE TABLE payment
+   (
+   paymentId                NUMBER(10,0),
+   policyId                 NUMBER(10,0)           CONSTRAINT "PAYMENT_POLICY_ID_NN" NOT NULL ENABLE,
+   paymentDate              DATE                  CONSTRAINT "PAYMENT_DATE_NN" NOT NULL ENABLE,
+   amount                   NUMBER(10,2)           CONSTRAINT "PAYMENT_MODE_NN" NOT NULL ENABLE, 
+   paymentMode              VARCHAR(10)           CONSTRAINT "PAYMENT_PAYMENT_MODE_NN" NOT NULL ENABLE,
+   status                   VARCHAR(10)           CONSTRAINT "PAYMENT_STATUS_NN" NOT NULL ENABLE,
+   
+   CONSTRAINT "PAYMENT_ID_PK" PRIMARY KEY (paymentId),
+   CONSTRAINT "PAYMENT_ID_FK" FOREIGN KEY (policyId) REFERENCES policy(policyId) ENABLE
+   );
+   
+
+
+
+   CREATE TABLE admin
+   (
+   adminId                NUMBER(10,0),
+   adminPassword          VARCHAR(10)           CONSTRAINT "ADMIN_PASSWORD_NN" NOT NULL ENABLE,
+   
+   CONSTRAINT "ADMIN_ID_PK" PRIMARY KEY (adminId)
+   );
+
+
+desc users;
+desc agent;
+desc admin;
+desc insurance;
+desc policy;
+desc claim;
+desc renewpolicy;
+desc payment;
+
+alter table insurance
+modify description varchar2(100);
+select * from claim;
+select * from insurance;
+select * from policy;
+
+create sequence Users_seq
+start with 1001
+increment by 1
+nocache
+nocycle;
+
+create sequence Agent_seq
+start with 2001
+increment by 1
+nocache
+nocycle;
+
+create sequence Insurance_seq
+start with 3001
+increment by 1
+nocache
+nocycle;
+
+create sequence Policy_seq
+start with 4001
+increment by 1
+nocache
+nocycle;
+
+create sequence Claim_seq
+start with 5001
+increment by 1
+nocache
+nocycle;
+
+create sequence Payment_seq
+start with 6001
+increment by 1
+nocache
+nocycle;
+
+select * from users;
